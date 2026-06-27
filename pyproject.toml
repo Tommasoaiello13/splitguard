@@ -1,0 +1,75 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "splitguard"
+version = "0.1.0"
+description = "Catch machine-learning train-test data leakage at runtime, zero config."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Tommaso Aiello" }]
+keywords = [
+    "machine-learning",
+    "data-leakage",
+    "train-test-split",
+    "scikit-learn",
+    "mlops",
+    "model-validation",
+    "testing",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = ["numpy>=1.24", "scikit-learn>=1.2"]
+
+[project.optional-dependencies]
+rich = ["rich>=13"]
+pandas = ["pandas>=1.5"]
+dev = [
+    "pytest>=7",
+    "pytest-cov",
+    "ruff",
+    "mypy",
+    "scikit-learn>=1.2",
+    "pandas>=1.5",
+    "rich>=13",
+    "matplotlib>=3.7",
+]
+
+[project.urls]
+Homepage = "https://github.com/Tommasoaiello13/splitguard"
+Issues = "https://github.com/Tommasoaiello13/splitguard/issues"
+
+[project.entry-points.pytest11]
+splitguard = "splitguard._pytest_plugin"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/splitguard"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+# Type-check against the latest Python: older targets reject PEP 695 `type` syntax used by
+# recent numpy/pandas stubs. Runtime support is still >=3.10 (verified by the CI test matrix).
+python_version = "3.13"
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
